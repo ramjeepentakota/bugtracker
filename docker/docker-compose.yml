@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: defect-tracker-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: defect_tracker
+      MYSQL_USER: defectuser
+      MYSQL_PASSWORD: defectpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./../database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - defect-tracker-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    container_name: defect-tracker-backend
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/defect_tracker?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: defectuser
+      SPRING_DATASOURCE_PASSWORD: defectpass
+    depends_on:
+      - mysql
+    networks:
+      - defect-tracker-network
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    container_name: defect-tracker-frontend
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+    networks:
+      - defect-tracker-network
+
+volumes:
+  mysql_data:
+
+networks:
+  defect-tracker-network:
+    driver: bridge
