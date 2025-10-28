@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Clients from './pages/Clients'
 import Applications from './pages/Applications'
 import TestPlans from './pages/TestPlans'
+import VaptReports from './pages/VaptReports'
 import Defects from './pages/Defects'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
@@ -28,7 +29,7 @@ function AppContent() {
 
   // Check if user has access to current route
   const currentPath = window.location.pathname
-  const restrictedPaths = ['/clients', '/applications', '/test-plans', '/defects']
+  const restrictedPaths = ['/clients', '/applications', '/test-plans', '/vapt-reports', '/defects']
   const isRestrictedPath = restrictedPaths.includes(currentPath)
 
   if (isRestrictedPath && user.role === 'CLIENT') {
@@ -49,6 +50,7 @@ function AppContent() {
             <Route path="/clients" element={<Clients />} />
             <Route path="/applications" element={<Applications />} />
             <Route path="/test-plans" element={<TestPlans />} />
+            <Route path="/vapt-reports" element={<VaptReports />} />
             <Route path="/defects" element={<Defects />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>

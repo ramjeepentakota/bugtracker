@@ -22,8 +22,8 @@ RUN groupadd -r defecttracker && useradd -r -g defecttracker defecttracker
 # Copy the built JAR
 COPY --from=build /app/target/*.jar app.jar
 
-# Create uploads directory
-RUN mkdir -p uploads && chown -R defecttracker:defecttracker uploads
+# Create uploads and reports directories
+RUN mkdir -p uploads reports && chown -R defecttracker:defecttracker uploads reports
 
 # Switch to non-root user
 USER defecttracker

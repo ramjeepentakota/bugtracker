@@ -32,10 +32,13 @@ api.interceptors.response.use(
       localStorage.removeItem('token');
       window.location.href = '/login';
     } else if (error.response?.status === 403) {
-      toast.error('Access denied. You do not have permission to access this resource.');
-      // Redirect to dashboard if trying to access restricted pages
-      if (window.location.pathname !== '/dashboard') {
-        window.location.href = '/dashboard';
+      // Don't show toast or redirect for VAPT reports API calls
+      if (!error.config?.url?.includes('/vapt-reports')) {
+        toast.error('Access denied. You do not have permission to access this resource.');
+        // Only redirect to dashboard if not already on a main page or VAPT reports page
+        if (!['/dashboard'].includes(window.location.pathname) && !window.location.pathname.startsWith('/vapt-reports')) {
+          window.location.href = '/dashboard';
+        }
       }
     }
     return Promise.reject(error);
@@ -91,6 +94,27 @@ export const testPlansAPI = {
   update: (id, testPlan) => api.put(`/test-plans/${id}`, testPlan),
   delete: (id) => api.delete(`/test-plans/${id}`),
   search: (query) => api.get(`/test-plans/search?query=${query}`),
+};
+
+// VAPT Reports API
+export const vaptReportsAPI = {
+  initialize: (clientId, applicationId) => api.post('/vapt-reports/initialize', { clientId, applicationId }),
+  getTestCases: (reportId) => api.get(`/vapt-reports/${reportId}/test-cases`),
+  updateTestCase: (testCaseId, data) => api.put(`/vapt-reports/test-cases/${testCaseId}`, data),
+  uploadPoc: (testCaseId, file, description) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (description) formData.append('description', description);
+    return api.post(`/vapt-reports/test-cases/${testCaseId}/pocs`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  getPocs: (testCaseId) => api.get(`/vapt-reports/test-cases/${testCaseId}/pocs`),
+  deletePoc: (pocId) => api.delete(`/vapt-reports/pocs/${pocId}`),
+  updatePoc: (pocId, data) => api.put(`/vapt-reports/pocs/${pocId}`, data),
+  generateReport: (reportId) => api.post(`/vapt-reports/${reportId}/generate`),
+  downloadDocxReport: (reportId) => api.get(`/vapt-reports/download/${reportId}/docx`, { responseType: 'blob' }),
+  downloadPdfReport: (reportId) => api.get(`/vapt-reports/download/${reportId}/pdf`, { responseType: 'blob' }),
 };
 
 // Defects API

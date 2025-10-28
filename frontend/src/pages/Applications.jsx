@@ -50,16 +50,13 @@ const Applications = () => {
     e.preventDefault()
     try {
       if (editingApplication) {
-        const updatedApplication = await applicationsAPI.update(editingApplication.id, formData)
-        setApplications(applications.map(app =>
-          app.id === editingApplication.id ? updatedApplication.data : app
-        ))
+        await applicationsAPI.update(editingApplication.id, formData)
         toast.success('Application updated successfully')
       } else {
-        const newApplication = await applicationsAPI.create(formData)
-        setApplications([...applications, newApplication.data])
+        await applicationsAPI.create(formData)
         toast.success('Application created successfully')
       }
+      fetchApplications()
       setShowModal(false)
       resetForm()
     } catch (error) {

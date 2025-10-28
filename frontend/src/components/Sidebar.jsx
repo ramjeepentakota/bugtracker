@@ -6,6 +6,7 @@ import {
   Building,
   FileText,
   Bug,
+  Shield,
   X
 } from 'lucide-react'
 
@@ -36,6 +37,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       path: '/test-plans',
       label: 'Test Plans',
       icon: FileText,
+      roles: ['ADMIN', 'TESTER']
+    },
+    {
+      path: '/vapt-reports',
+      label: 'VAPT Report',
+      icon: Shield,
       roles: ['ADMIN', 'TESTER']
     },
     {
