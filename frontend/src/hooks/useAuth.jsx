@@ -48,10 +48,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
+      console.log('Frontend login attempt for user:', username)
       const response = await axios.post('/api/auth/login', {
         username,
         password
       })
+
+      console.log('Login response status:', response.status)
+      console.log('Login response data:', response.data)
 
       const { token, user: userData } = response.data
       localStorage.setItem('token', token)
@@ -61,6 +65,8 @@ export const AuthProvider = ({ children }) => {
       toast.success('Login successful!')
       return { success: true }
     } catch (error) {
+      console.error('Login error:', error)
+      console.error('Error response:', error.response)
       const message = error.response?.data?.error || 'Login failed'
       toast.error(message)
       return { success: false, error: message }

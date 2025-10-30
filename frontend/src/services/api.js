@@ -1,6 +1,8 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+// Add console logging for debugging connectivity
+const DEBUG_MODE = true;
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: '/api',
@@ -13,6 +15,7 @@ const api = axios.create({
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
+    if (DEBUG_MODE) console.log('API Request:', config.method?.toUpperCase(), config.url);
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -20,14 +23,26 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    if (DEBUG_MODE) console.error('API Request Error:', error);
     return Promise.reject(error);
   }
 );
 
 // Response interceptor to handle errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (DEBUG_MODE) console.log('API Response:', response.status, response.config.url);
+    return response;
+  },
   (error) => {
+    if (DEBUG_MODE) {
+      console.error('API Error:', {
+        status: error.response?.status,
+        url: error.config?.url,
+        message: error.message,
+        data: error.response?.data
+      });
+    }
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';

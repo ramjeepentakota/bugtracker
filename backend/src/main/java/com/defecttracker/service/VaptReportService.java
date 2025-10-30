@@ -221,7 +221,7 @@ public class VaptReportService {
                 XWPFParagraph exBody = document.createParagraph();
                 XWPFRun ex = exBody.createRun();
                 ex.setText("Objective: Comprehensive Vulnerability Assessment and Penetration Testing (VAPT) of " + report.getApplication().getApplicationName() + "."); ex.addBreak();
-                ex.setText("Scope: " + report.getApplication().getApplicationName() + " (" + report.getApplication().getEnvironment() + ")"); ex.addBreak();
+                ex.setText("Scope: " + report.getApplication().getApplicationName() + " (" + report.getApplication().getEnvironment().toString() + ")"); ex.addBreak();
                 ex.setText("Approach: Black Box Testing Methodology"); ex.addBreak();
                 ex.setText("Overall Risk Exposure: " + calculateOverallRisk(severityCounts)); ex.addBreak();
 
@@ -240,7 +240,7 @@ public class VaptReportService {
                 XWPFTable scope = document.createTable(3, 2);
                 scope.getRow(0).getCell(0).setText("Client Name"); scope.getRow(0).getCell(1).setText(report.getClient().getClientName());
                 scope.getRow(1).getCell(0).setText("Application Name"); scope.getRow(1).getCell(1).setText(report.getApplication().getApplicationName());
-                scope.getRow(2).getCell(0).setText("Environment"); scope.getRow(2).getCell(1).setText(report.getApplication().getEnvironment());
+                scope.getRow(2).getCell(0).setText("Environment"); scope.getRow(2).getCell(1).setText(report.getApplication().getEnvironment().toString());
 
                 // Methodologies & Standards
                 XWPFParagraph methTitle = document.createParagraph(); methTitle.setSpacingBefore(300);
@@ -424,7 +424,7 @@ public class VaptReportService {
                 // Report Header
                 document.add(new com.itextpdf.layout.element.Paragraph("Client: " + report.getClient().getClientName()).setBold());
                 document.add(new com.itextpdf.layout.element.Paragraph("Application: " + report.getApplication().getApplicationName()));
-                document.add(new com.itextpdf.layout.element.Paragraph("Environment: " + report.getApplication().getEnvironment()));
+                document.add(new com.itextpdf.layout.element.Paragraph("Environment: " + report.getApplication().getEnvironment().toString()));
                 document.add(new com.itextpdf.layout.element.Paragraph("Assessment Date: " + LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))));
                 document.add(new com.itextpdf.layout.element.Paragraph("Version: " + getVersion()));
                 document.add(new com.itextpdf.layout.element.Paragraph("\n"));
@@ -447,7 +447,7 @@ public class VaptReportService {
                 document.add(new com.itextpdf.layout.element.Paragraph("Objective: Comprehensive Vulnerability Assessment and Penetration Testing (VAPT) of " +
                     report.getApplication().getApplicationName() + " application."));
                 document.add(new com.itextpdf.layout.element.Paragraph("Scope: " + report.getApplication().getApplicationName() + " (" +
-                    report.getApplication().getEnvironment() + " environment)"));
+                    report.getApplication().getEnvironment().toString() + " environment)"));
                 document.add(new com.itextpdf.layout.element.Paragraph("Approach: Black Box Testing Methodology"));
                 document.add(new com.itextpdf.layout.element.Paragraph("Overall Risk Exposure: " + calculateOverallRisk(severityCounts)));
                 document.add(new com.itextpdf.layout.element.Paragraph("\n"));
@@ -612,7 +612,6 @@ public class VaptReportService {
         long medium = severityCounts.getOrDefault("MEDIUM", 0L);
         long low = severityCounts.getOrDefault("LOW", 0L);
         long info = severityCounts.getOrDefault("INFO", 0L);
-        long total = critical + high + medium + low + info;
 
         String riskDistributionChart = generateRiskDistributionChart(severityCounts);
         String vulnerableAssetsChart = generateVulnerableAssetsChart(testCases);
@@ -620,7 +619,7 @@ public class VaptReportService {
 
         String clientName = report.getClient().getClientName();
         String appName = report.getApplication().getApplicationName();
-        String environment = report.getApplication().getEnvironment();
+        String environment = report.getApplication().getEnvironment().toString();
         String assessmentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
         String version = getVersion();
         String overallRisk = calculateOverallRisk(severityCounts);
@@ -669,7 +668,7 @@ public class VaptReportService {
             .append("<div class=\"space-y-4 lg:col-span-2\">")
             .append("<h3 class=\"text-lg font-semibold text-gray-300\">Objective</h3><p class=\"text-gray-400\">Comprehensive VAPT assessment</p>")
             .append("<h3 class=\"text-lg font-semibold text-gray-300\">Scope & Approach</h3><p class=\"text-gray-400\">")
-            .append("Scope: ").append(appName).append(" ( ").append(environment).append(" ) ")
+            .append("Scope: ").append(appName).append(" ( ").append(environment.toString()).append(" ) ")
             .append("Approach: Black Box Testing</p>")
             .append("<h3 class=\"text-lg font-semibold text-gray-300\">Key Highlights</h3><p class=\"text-gray-400\">Automated report with charts and summaries</p>")
             .append("</div>")
@@ -781,14 +780,6 @@ public class VaptReportService {
         return html.toString();
     }
 
-    private String getCssStyles() {
-        return "* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Inter', 'Poppins', 'Roboto Mono', Arial, Helvetica, sans-serif; line-height: 1.6; color: #d1e8ff; background: #0a0f1f; margin: 0; padding: 20px; } .header { background: linear-gradient(135deg, #000000 0%, #0a2540 40%, #1b6cf2 70%, #00ff88 100%); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00d4ff; color: white; border-radius: 10px; } .logo { width: 60px; height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px #00d4ff); } .logo-section h1 { color: #e6f7ff; font-size: 24px; text-shadow: 0 0 12px rgba(0,255,136,0.45); } .header-info { text-align: right; color: #e6f7ff; } section { margin: 20px 0; padding: 20px; background: #0f1b2d; border-radius: 10px; border: 1px solid rgba(0,212,255,0.2); box-shadow: 0 6px 18px rgba(0,0,0,0.35); } h2 { color: #7dd3fc; font-size: 24px; margin-bottom: 15px; border-bottom: 2px solid #00d4ff; padding-bottom: 8px; } h3 { color: #93c5fd; font-size: 18px; margin-bottom: 12px; } .attributes-grid, .standards-grid, .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; } .attributes-grid div, .standard-item, .tool-item { background: #0c1526; padding: 15px; border-radius: 8px; border: 1px solid rgba(0,212,255,0.2); box-shadow: inset 0 0 8px rgba(0,212,255,0.05); } .risk-posture { margin-top: 20px; } .risk-bar { width: 100%; height: 20px; background: rgba(0, 212, 255, 0.15); border-radius: 10px; overflow: hidden; margin-top: 10px; } .risk-fill { height: 100%; border-radius: 10px; transition: width 0.3s ease; } .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; } .chart-container { background: #0c1526; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(0,212,255,0.2); } .chart-container img { max-width: 100%; height: auto; border-radius: 5px; } .summary-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 30px; } .stat-item { text-align: center; padding: 15px; border-radius: 8px; border: 2px solid; color: #e6f7ff; } .stat-item.critical { border-color: #ff4d4f; background: rgba(255, 77, 79, 0.1); } .stat-item.high { border-color: #ffa940; background: rgba(255, 169, 64, 0.1); } .stat-item.medium { border-color: #ffd666; background: rgba(255, 214, 102, 0.1); } .stat-item.low { border-color: #52c41a; background: rgba(82, 196, 26, 0.1); } .stat-item.info { border-color: #597ef7; background: rgba(89, 126, 247, 0.1); } .stat-item.total { border-color: #00d4ff; background: rgba(0, 212, 255, 0.12); } .stat-item .count { display: block; font-size: 32px; font-weight: bold; margin-bottom: 5px; } .stat-item .label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; } .risk-table table { width: 100%; border-collapse: collapse; margin-top: 20px; } .risk-table th, .risk-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(0, 212, 255, 0.2); color: #d1e8ff; } .risk-table th { background: rgba(0, 212, 255, 0.12); color: #00d4ff; font-weight: bold; } .risk-table tr.critical { background: rgba(255, 68, 68, 0.1); } .risk-table tr.high { background: rgba(255, 136, 0, 0.1); } .risk-table tr.medium { background: rgba(255, 170, 0, 0.1); } .risk-table tr.low { background: rgba(68, 255, 68, 0.1); } .risk-table tr.info { background: rgba(68, 68, 255, 0.1); } .observations-list { display: grid; gap: 20px; } .observation-card { background: #0c1526; border: 1px solid rgba(0,212,255,0.2); border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 15px; } .observation-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; } .observation-header h3 { color: #86efac; margin: 0; } .severity { padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .severity.critical { background: #ff4d4f; color: white; } .severity.high { background: #ffa940; color: #0a0f1f; } .severity.medium { background: #ffd666; color: #0a0f1f; } .severity.low { background: #52c41a; color: #0a0f1f; } .severity.info { background: #597ef7; color: white; } .signatures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; } .signature { text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.02); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.15); } .footer { text-align: center; padding: 20px; background: #0f1b2d; color: #9ca3af; border-top: 1px solid rgba(0,212,255,0.2); margin-top: 30px; font-size: 12px; border-radius: 8px; } .tools-note { margin-top: 20px; font-style: italic; color: #93c5fd; } @media (max-width: 768px) { .header { flex-direction: column; text-align: center; } .attributes-grid, .standards-grid, .tools-grid { grid-template-columns: 1fr; } .charts-grid { grid-template-columns: 1fr; } .summary-stats { grid-template-columns: repeat(2, 1fr); } .signatures { grid-template-columns: 1fr; } }";
-    }
-
-    private String getLogoBase64() {
-        // Placeholder for logo - in real implementation, load actual logo
-        return "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
-    }
 
     private String getVersion() {
         return "1.0." + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -807,29 +798,6 @@ public class VaptReportService {
         return "Minimal Risk";
     }
 
-    private String calculateRiskPercentage(Map<String, Long> severityCounts) {
-        long total = severityCounts.values().stream().mapToLong(Long::longValue).sum();
-        if (total == 0) return "0";
-
-        long critical = severityCounts.getOrDefault("CRITICAL", 0L);
-        long high = severityCounts.getOrDefault("HIGH", 0L);
-        long medium = severityCounts.getOrDefault("MEDIUM", 0L);
-
-        long weightedScore = (critical * 100) + (high * 50) + (medium * 25);
-        long maxPossibleScore = total * 100;
-
-        int percentage = maxPossibleScore > 0 ? (int)((weightedScore * 100) / maxPossibleScore) : 0;
-        return String.valueOf(Math.min(percentage, 100));
-    }
-
-    private String getRiskColor(Map<String, Long> severityCounts) {
-        long critical = severityCounts.getOrDefault("CRITICAL", 0L);
-        long high = severityCounts.getOrDefault("HIGH", 0L);
-
-        if (critical > 0) return "#ff4444";
-        if (high > 0) return "#ff8800";
-        return "#44ff44";
-    }
 
     private String generateRiskDistributionChart(Map<String, Long> severityCounts) {
         DefaultPieDataset<String> dataset = new DefaultPieDataset<>();

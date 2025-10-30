@@ -9,7 +9,11 @@ import {
   TrendingUp,
   AlertTriangle,
   CheckCircle,
-  Clock
+  Clock,
+  Shield,
+  Activity,
+  Zap,
+  Target
 } from 'lucide-react'
 import {
   PieChart,
@@ -23,7 +27,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   LineChart,
-  Line
+  Line,
+  AreaChart,
+  Area
 } from 'recharts'
 
 const Dashboard = () => {
@@ -71,8 +77,11 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="relative">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-500 border-t-transparent"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-primary-400/20 animate-pulse"></div>
+        </div>
       </div>
     )
   }
@@ -82,43 +91,55 @@ const Dashboard = () => {
       title: 'Total Clients',
       value: stats?.totalClients || 0,
       icon: Users,
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-500/10'
+      color: 'text-cyan-400',
+      bgColor: 'bg-gradient-to-br from-cyan-500/20 to-blue-500/20',
+      borderColor: 'border-cyan-500/30',
+      glowColor: 'shadow-cyan-500/25'
     },
     {
       title: 'Total Applications',
       value: stats?.totalApplications || 0,
       icon: FolderOpen,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10'
+      color: 'text-emerald-400',
+      bgColor: 'bg-gradient-to-br from-emerald-500/20 to-green-500/20',
+      borderColor: 'border-emerald-500/30',
+      glowColor: 'shadow-emerald-500/25'
     },
     {
       title: 'Test Plans',
       value: stats?.totalTestPlans || 0,
-      icon: FileText,
+      icon: Target,
       color: 'text-purple-400',
-      bgColor: 'bg-purple-500/10'
+      bgColor: 'bg-gradient-to-br from-purple-500/20 to-violet-500/20',
+      borderColor: 'border-purple-500/30',
+      glowColor: 'shadow-purple-500/25'
     },
     {
       title: 'Total Defects',
       value: stats?.totalDefects || 0,
       icon: Bug,
       color: 'text-red-400',
-      bgColor: 'bg-red-500/10'
+      bgColor: 'bg-gradient-to-br from-red-500/20 to-pink-500/20',
+      borderColor: 'border-red-500/30',
+      glowColor: 'shadow-red-500/25'
     },
     {
       title: 'Open Defects',
       value: stats?.openDefects || 0,
-      icon: Clock,
+      icon: Activity,
       color: 'text-yellow-400',
-      bgColor: 'bg-yellow-500/10'
+      bgColor: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+      borderColor: 'border-yellow-500/30',
+      glowColor: 'shadow-yellow-500/25'
     },
     {
       title: 'Closed Defects',
       value: stats?.closedDefects || 0,
       icon: CheckCircle,
       color: 'text-green-400',
-      bgColor: 'bg-green-500/10'
+      bgColor: 'bg-gradient-to-br from-green-500/20 to-teal-500/20',
+      borderColor: 'border-green-500/30',
+      glowColor: 'shadow-green-500/25'
     }
   ]
 
@@ -138,13 +159,24 @@ const Dashboard = () => {
   })) : []
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <div className="text-sm text-gray-400">
-          Last updated: {new Date().toLocaleString()}
+    <div className="space-y-8">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Cybersecurity Dashboard
+          </h1>
+          <p className="text-gray-400 mt-2">Real-time VAPT analytics and insights</p>
         </div>
-      </div>
+        <div className="flex items-center space-x-2 text-sm text-gray-400 bg-dark-800/50 px-4 py-2 rounded-full border border-dark-700">
+          <Activity className="w-4 h-4" />
+          <span>Last updated: {new Date().toLocaleString()}</span>
+        </div>
+      </motion.div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -153,80 +185,148 @@ const Dashboard = () => {
             key={card.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="card p-6"
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            whileHover={{ scale: 1.02, y: -5 }}
+            className={`relative overflow-hidden rounded-2xl border backdrop-blur-xl ${card.bgColor} ${card.borderColor} ${card.glowColor} shadow-2xl`}
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-400 mb-1">{card.title}</p>
-                <p className="text-3xl font-bold text-white">{card.value}</p>
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
+
+            {/* Glow effect */}
+            <div className={`absolute -inset-1 bg-gradient-to-r ${card.bgColor} rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500`}></div>
+
+            <div className="relative p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-xl ${card.bgColor} ring-1 ring-white/10`}>
+                  <card.icon className={`w-6 h-6 ${card.color}`} />
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-green-400 font-medium">Live</span>
+                </div>
               </div>
-              <div className={`p-4 rounded-xl ${card.bgColor}`}>
-                <card.icon className={`w-8 h-8 ${card.color}`} />
+
+              <div>
+                <p className="text-sm text-gray-400 mb-2 font-medium">{card.title}</p>
+                <p className="text-3xl font-bold text-white mb-1">{card.value.toLocaleString()}</p>
+                <div className="flex items-center space-x-1">
+                  <TrendingUp className="w-4 h-4 text-green-400" />
+                  <span className="text-xs text-green-400 font-medium">+12.5%</span>
+                  <span className="text-xs text-gray-500">vs last month</span>
+                </div>
               </div>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Severity Pie Chart */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="card p-6"
+          transition={{ delay: 0.3 }}
+          className="xl:col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-dark-800/50 to-dark-900/50 border border-dark-700/50 backdrop-blur-xl shadow-2xl"
         >
-          <h3 className="text-xl font-semibold text-white mb-6">Defects by Severity</h3>
-          <ResponsiveContainer width="100%" height={350}>
-            <PieChart>
-              <Pie
-                data={severityData}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              >
-                {severityData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#1f2937',
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#fff'
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5"></div>
+          <div className="relative p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-white flex items-center">
+                <Shield className="w-5 h-5 mr-2 text-cyan-400" />
+                Vulnerability Severity Distribution
+              </h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                <span className="text-sm text-gray-400">Critical</span>
+                <div className="w-3 h-3 bg-yellow-400 rounded-full ml-4"></div>
+                <span className="text-sm text-gray-400">High</span>
+              </div>
+            </div>
+
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart>
+                <Pie
+                  data={severityData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={140}
+                  paddingAngle={5}
+                  dataKey="value"
+                  label={({ name, percent }) => percent > 0 ? `${name} ${(percent * 100).toFixed(0)}%` : ''}
+                  labelLine={false}
+                >
+                  {severityData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      stroke={entry.color}
+                      strokeWidth={2}
+                      className="drop-shadow-lg"
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                    border: '1px solid rgba(55, 65, 81, 0.5)',
+                    borderRadius: '12px',
+                    color: '#fff',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </motion.div>
 
-        {/* Status Bar Chart */}
+        {/* Status Overview */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="card p-6"
+          transition={{ delay: 0.4 }}
+          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-dark-800/50 to-dark-900/50 border border-dark-700/50 backdrop-blur-xl shadow-2xl"
         >
-          <h3 className="text-xl font-semibold text-white mb-6">Defects by Status</h3>
-          <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={statusData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} />
-              <YAxis stroke="#9ca3af" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#1f2937',
-                  border: '1px solid #374151',
-                  borderRadius: '8px',
-                  color: '#fff'
-                }}
-              />
-              <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5"></div>
+          <div className="relative p-6">
+            <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
+              <Activity className="w-5 h-5 mr-2 text-emerald-400" />
+              Defect Status Overview
+            </h3>
+
+            <div className="space-y-4">
+              {statusData.map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + index * 0.1 }}
+                  className="flex items-center justify-between p-3 rounded-lg bg-dark-700/50 border border-dark-600/50 hover:bg-dark-700/70 transition-colors"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${
+                      item.name.toLowerCase().includes('open') ? 'bg-yellow-400' :
+                      item.name.toLowerCase().includes('closed') ? 'bg-green-400' :
+                      item.name.toLowerCase().includes('progress') ? 'bg-blue-400' :
+                      'bg-gray-400'
+                    }`}></div>
+                    <span className="text-sm text-gray-300 font-medium">{item.name}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg font-bold text-white">{item.value}</span>
+                    <div className="w-16 h-2 bg-dark-600 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full transition-all duration-1000"
+                        style={{ width: `${(item.value / Math.max(...statusData.map(d => d.value))) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
 
@@ -234,32 +334,72 @@ const Dashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card p-6"
+        transition={{ delay: 0.6 }}
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-dark-800/50 to-dark-900/50 border border-dark-700/50 backdrop-blur-xl shadow-2xl"
       >
-        <h3 className="text-xl font-semibold text-white mb-6">Defect Trends (Last 6 Months)</h3>
-        <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={monthlyTrendsData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis dataKey="month" stroke="#9ca3af" fontSize={12} />
-            <YAxis stroke="#9ca3af" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#1f2937',
-                border: '1px solid #374151',
-                borderRadius: '8px',
-                color: '#fff'
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="count"
-              stroke="#3b82f6"
-              strokeWidth={3}
-              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 6 }}
-              activeDot={{ r: 8, stroke: '#3b82f6', strokeWidth: 2, fill: '#1f2937' }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5"></div>
+        <div className="relative p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold text-white flex items-center">
+              <TrendingUp className="w-5 h-5 mr-2 text-purple-400" />
+              Vulnerability Trends (Last 6 Months)
+            </h3>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+                <span className="text-sm text-gray-400">Detected</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-cyan-400 rounded-full"></div>
+                <span className="text-sm text-gray-400">Resolved</span>
+              </div>
+            </div>
+          </div>
+
+          <ResponsiveContainer width="100%" height={350}>
+            <AreaChart data={monthlyTrendsData}>
+              <defs>
+                <linearGradient id="colorTrend" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+              <XAxis
+                dataKey="month"
+                stroke="#9ca3af"
+                fontSize={12}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                stroke="#9ca3af"
+                fontSize={12}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                  border: '1px solid rgba(55, 65, 81, 0.5)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="count"
+                stroke="#8b5cf6"
+                strokeWidth={3}
+                fill="url(#colorTrend)"
+                dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 6, stroke: '#1f2937' }}
+                activeDot={{ r: 8, stroke: '#8b5cf6', strokeWidth: 2, fill: '#1f2937' }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </motion.div>
     </div>
   )

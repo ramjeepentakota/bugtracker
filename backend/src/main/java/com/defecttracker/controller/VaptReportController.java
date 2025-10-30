@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.core.io.Resource;
@@ -146,18 +147,16 @@ public class VaptReportController {
                 // Continue even if PDF fails
             }
 
-            Map<String, String> response = Map.of(
-                "message", "Report generation completed successfully",
-                "docxUrl", "/api/vapt-reports/download/" + reportId + "/docx",
-                "pdfUrl", "/api/vapt-reports/download/" + reportId + "/pdf"
-            );
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Report generation completed successfully");
+            response.put("docxUrl", "/api/vapt-reports/download/" + reportId + "/docx");
+            response.put("pdfUrl", "/api/vapt-reports/download/" + reportId + "/pdf");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error generating report: " + e.getMessage());
             e.printStackTrace();
-            Map<String, String> errorResponse = Map.of(
-                "message", "Failed to generate report: " + e.getMessage()
-            );
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to generate report: " + e.getMessage());
             return ResponseEntity.internalServerError().body(errorResponse);
         }
     }
@@ -215,9 +214,13 @@ public class VaptReportController {
     public ResponseEntity<Map<String, String>> getHtmlReport(@PathVariable Long reportId) {
         try {
             String html = vaptReportService.generateHtmlReportPublic(reportId);
-            return ResponseEntity.ok(Map.of("html", html));
+            Map<String, String> response = new HashMap<>();
+            response.put("html", html);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.internalServerError().body(errorResponse);
         }
     }
 }

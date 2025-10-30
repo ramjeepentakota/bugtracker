@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,11 +73,10 @@ public class ClientController {
 
     @GetMapping("/{id}/stats")
     public ResponseEntity<Map<String, Object>> getClientStats(@PathVariable Long id) {
-        Map<String, Object> stats = Map.of(
-            "totalApplications", 0, // Would need to implement
-            "totalDefects", clientService.countOpenDefectsByClient(id),
-            "openDefects", clientService.countOpenDefectsByClient(id)
-        );
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalApplications", 0); // Would need to implement
+        stats.put("totalDefects", clientService.countOpenDefectsByClient(id));
+        stats.put("openDefects", clientService.countOpenDefectsByClient(id));
         return ResponseEntity.ok(stats);
     }
 }

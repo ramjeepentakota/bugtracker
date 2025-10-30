@@ -66,7 +66,9 @@ public class DashboardService {
             .map(entry -> new Object[]{entry.getKey(), entry.getValue()})
             .collect(Collectors.toList());
 
-        return Map.of("data", results);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", results);
+        return response;
     }
 
     public Map<String, Object> getMonthlyTrends() {
@@ -91,7 +93,9 @@ public class DashboardService {
             })
             .collect(Collectors.toList());
 
-        return Map.of("data", data);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
     }
 
     public Map<String, Object> getClientsWithMostDefects() {
@@ -104,6 +108,8 @@ public class DashboardService {
             .limit(10)
             .collect(Collectors.toList());
 
-        return Map.of("data", results);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", results);
+        return response;
     }
 }
