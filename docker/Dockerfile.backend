@@ -16,6 +16,12 @@ FROM openjdk:17
 
 WORKDIR /app
 
+<<<<<<< HEAD
+=======
+# Install curl for health checks
+RUN microdnf update -y && microdnf install -y curl && microdnf clean all
+
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
 # Create non-root user
 RUN groupadd -r defecttracker && useradd -r -g defecttracker defecttracker
 

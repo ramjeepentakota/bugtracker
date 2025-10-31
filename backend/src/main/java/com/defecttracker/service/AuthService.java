@@ -39,7 +39,11 @@ public class AuthService {
         System.out.println("Found user: " + user.getUsername() + ", active: " + user.isActive() + ", role: " + user.getRole());
         System.out.println("Stored password hash: " + user.getPasswordHash());
 
+<<<<<<< HEAD
         boolean passwordMatches = passwordEncoder.matches(password, user.getPasswordHash());
+=======
+        boolean passwordMatches = password.equals(user.getPasswordHash());
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
         System.out.println("Password match result: " + passwordMatches + " for password: " + password);
 
         if (!passwordMatches) {
@@ -76,8 +80,13 @@ public class AuthService {
             throw new RuntimeException("Email already exists");
         }
 
+<<<<<<< HEAD
         // Encode password with BCrypt
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+=======
+        // Store password as plain text (no encoding)
+        // user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
         user.setRole(User.Role.CLIENT); // Default role
         user.setActive(true);
 

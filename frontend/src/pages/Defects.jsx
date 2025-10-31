@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react'
+<<<<<<< HEAD
+=======
+import { useNavigate } from 'react-router-dom'
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
 import axios from 'axios'
 import { Plus, Search, Edit, Trash2, Bug, Eye } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const Defects = () => {
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate()
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
   const [defects, setDefects] = useState([])
   const [clients, setClients] = useState([])
   const [applications, setApplications] = useState([])
@@ -232,7 +240,19 @@ const Defects = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
+<<<<<<< HEAD
         <h1 className="text-2xl font-bold text-white">Defects</h1>
+=======
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="btn-secondary flex items-center"
+          >
+            ← Back to Dashboard
+          </button>
+          <h1 className="text-2xl font-bold text-white">Defects</h1>
+        </div>
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
         <button
           onClick={() => setShowModal(true)}
           className="btn-primary flex items-center"

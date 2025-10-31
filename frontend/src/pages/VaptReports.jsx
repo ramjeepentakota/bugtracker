@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react'
+<<<<<<< HEAD
+=======
+import { useNavigate } from 'react-router-dom'
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
 import { vaptReportsAPI, clientsAPI, applicationsAPI } from '../services/api'
 import { Shield, CheckCircle, XCircle, Upload, FileText, Download } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const VaptReports = () => {
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate()
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
   const [clients, setClients] = useState([])
   const [applications, setApplications] = useState([])
   const [filteredApplications, setFilteredApplications] = useState([])
@@ -474,10 +482,25 @@ const VaptReports = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
+<<<<<<< HEAD
         <h1 className="text-2xl font-bold text-white flex items-center">
           <Shield className="w-6 h-6 mr-2" />
           VAPT Report
         </h1>
+=======
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="btn-secondary flex items-center"
+          >
+            ← Back to Dashboard
+          </button>
+          <h1 className="text-2xl font-bold text-white flex items-center">
+            <Shield className="w-6 h-6 mr-2" />
+            VAPT Report
+          </h1>
+        </div>
+>>>>>>> e5f1c9cd (new dashboard design and login page fix)
       </div>
 
       {/* Selection Form */}
