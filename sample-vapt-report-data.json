@@ -1,0 +1,52 @@
+{
+  "reportId": 2,
+  "clientName": "Sample Client Corp",
+  "applicationName": "Web Application",
+  "environment": "Production",
+  "assessmentDate": "2025-10-25",
+  "preparedBy": "John Doe",
+  "reviewedBy": "Security Team Lead",
+  "submittedTo": "Client Representative",
+  "version": "1.0.20251025",
+  "objective": "Comprehensive VAPT assessment",
+  "scope": "Web application and APIs",
+  "approach": "Black Box Testing",
+  "testingDays": 5,
+  "startDate": "2025-10-20",
+  "endDate": "2025-10-25",
+  "vulnerabilitySummary": {
+    "critical": 1,
+    "high": 2,
+    "medium": 3,
+    "low": 1,
+    "info": 0,
+    "total": 7
+  },
+  "overallRisk": "Medium Risk",
+  "riskPercentage": 45,
+  "testCases": [
+    {
+      "id": 7,
+      "vulnerabilityName": "Cross-Site Scripting (XSS)",
+      "severity": "HIGH",
+      "status": "COMPLETED",
+      "description": "XSS vulnerability found in search parameter",
+      "remediation": "Implement input validation and output encoding",
+      "impact": "Session hijacking, phishing attacks"
+    },
+    {
+      "id": 8,
+      "vulnerabilityName": "SQL Injection",
+      "severity": "CRITICAL",
+      "status": "COMPLETED",
+      "description": "SQL injection in login form",
+      "remediation": "Use prepared statements",
+      "impact": "Database compromise, data breach"
+    }
+  ],
+  "charts": {
+    "riskDistribution": "data:image/png;base64,...",
+    "vulnerableAssets": "data:image/png;base64,...",
+    "topApplications": "data:image/png;base64,..."
+  }
+}

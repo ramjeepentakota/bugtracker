@@ -1,0 +1,35 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2025-11-03 00:43:02.163  INFO 8520 --- [           main] c.d.DefectTrackerApplication             : Starting DefectTrackerApplication v0.0.1-SNAPSHOT using Java 1.8.0_392 on LAPTOP-70FK1TE5 with PID 8520 (C:\Users\ramje\Desktop\bugtracker\backend\target\defect-tracker-backend-0.0.1-SNAPSHOT.jar started by ramje in c:\Users\ramje\Desktop\bugtracker\backend)
+2025-11-03 00:43:02.167 DEBUG 8520 --- [           main] c.d.DefectTrackerApplication             : Running with Spring Boot v2.7.18, Spring v5.3.31
+2025-11-03 00:43:02.168  INFO 8520 --- [           main] c.d.DefectTrackerApplication             : No active profile set, falling back to 1 default profile: "default"
+2025-11-03 00:43:03.194  INFO 8520 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-03 00:43:03.297  INFO 8520 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 91 ms. Found 10 JPA repository interfaces.
+2025-11-03 00:43:04.309  INFO 8520 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2025-11-03 00:43:04.321  INFO 8520 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-03 00:43:04.321  INFO 8520 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2025-11-03 00:43:04.410  INFO 8520 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-11-03 00:43:04.411  INFO 8520 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2180 ms
+2025-11-03 00:43:04.824  INFO 8520 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-03 00:43:05.135  INFO 8520 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-03 00:43:05.253  INFO 8520 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-03 00:43:05.321  INFO 8520 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2025-11-03 00:43:05.467  INFO 8520 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-11-03 00:43:05.598  INFO 8520 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2025-11-03 00:43:06.549  INFO 8520 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-11-03 00:43:06.695  INFO 8520 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-03 00:43:07.252 DEBUG 8520 --- [           main] c.d.config.JwtAuthenticationFilter       : Filter 'jwtAuthenticationFilter' configured for use
+2025-11-03 00:43:07.496  WARN 8520 --- [           main] o.h.dialect.function.TemplateRenderer    : HHH000174: Function template anticipated 3 arguments, but 2 arguments encountered
+2025-11-03 00:43:07.568  WARN 8520 --- [           main] o.h.dialect.function.TemplateRenderer    : HHH000174: Function template anticipated 3 arguments, but 2 arguments encountered
+2025-11-03 00:43:07.935  INFO 8520 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d4d48a6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@315df4bb, org.springframework.security.web.context.SecurityContextPersistenceFilter@e041f0c, org.springframework.security.web.header.HeaderWriterFilter@622ef26a, org.springframework.web.filter.CorsFilter@3fc08eec, org.springframework.security.web.authentication.logout.LogoutFilter@437e951d, com.defecttracker.config.JwtAuthenticationFilter@21694e53, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@11963225, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4102b1b1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5cad8b7d, org.springframework.security.web.session.SessionManagementFilter@28fa700e, org.springframework.security.web.access.ExceptionTranslationFilter@3ef41c66, org.springframework.security.web.access.intercept.AuthorizationFilter@51abf713]
+2025-11-03 00:43:08.001  WARN 8520 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-03 00:43:08.496  INFO 8520 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-11-03 00:43:08.550  INFO 8520 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path '/api'
+2025-11-03 00:43:08.565  INFO 8520 --- [           main] c.d.DefectTrackerApplication             : Started DefectTrackerApplication in 6.809 seconds (JVM running for 7.272)
